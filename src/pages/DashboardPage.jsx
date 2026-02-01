@@ -1,35 +1,55 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentWeather } from '../features/weather/weatherSlice';
+import CityCard from '../components/CityCard/CityCard';
+import SearchBar from '../components/SearchBar/SearchBar';
 
-const cities = ['London', 'New York', 'Delhi'];
+// Default cities shown on first load
+const defaultCities = ['London', 'New York', 'Delhi', 'Tokyo'];
 
 function DashboardPage() {
   const dispatch = useDispatch();
-  const { current, loading, error } = useSelector((state) => state.weather);
+
+  // Local state for dynamic city list
+  const [cities, setCities] = useState(defaultCities);
+
+  // Redux state
+  const weatherCities = useSelector((state) => state.weather.cities);
+  const loading = useSelector((state) => state.weather.loading);
   const unit = useSelector((state) => state.settings.unit);
 
+  // Fetch weather whenever cities or unit change
   useEffect(() => {
-    // Fetch weather for first city for now
-    dispatch(getCurrentWeather({ city: cities[0], unit }));
-  }, [dispatch, unit]);
+    cities.forEach((city) => {
+      dispatch(getCurrentWeather({ city, unit }));
+    });
+  }, [dispatch, cities, unit]);
 
-  if (loading) return <p>Loading weather...</p>;
-  if (error) return <p>Error: {error}</p>;
+  // Handle search add
+  const handleSearch = (city) => {
+    if (cities.includes(city)) return; // prevent duplicates
+    setCities((prev) => [...prev, city]);
+  };
 
   return (
-    <div>
-      <h2>Weather Dashboard</h2>
+    <div className="app-container">
+      <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
+      <p className="app-subtitle">
+        Real-time weather insights across major cities
+      </p>
 
-      {current && (
-        <div style={{ border: '1px solid #ccc', padding: '16px', width: '250px' }}>
-          <h3>{current.name}</h3>
-          <p>Temperature: {current.main.temp}°</p>
-          <p>Condition: {current.weather[0].main}</p>
-          <p>Humidity: {current.main.humidity}%</p>
-          <p>Wind: {current.wind.speed} m/s</p>
-        </div>
-      )}
+      {/* Search Bar */}
+      <SearchBar onSearch={handleSearch} />
+
+      {/* Loading indicator */}
+      {loading && <p>Loading weather data...</p>}
+
+      {/* City Cards */}
+      <div className="card-grid">
+        {cities.map((city) => (
+          <CityCard key={city} data={weatherCities[city]} />
+        ))}
+      </div>
     </div>
   );
 }

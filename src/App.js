@@ -1,12 +1,8 @@
 import DashboardPage from './pages/DashboardPage';
+import './App.css';
 
 function App() {
-  return (
-    <div>
-      <h1>TapTalent Weather Analytics Dashboard</h1>
-      <DashboardPage />
-    </div>
-  );
+  return <DashboardPage />;
 }
 
 export default App;

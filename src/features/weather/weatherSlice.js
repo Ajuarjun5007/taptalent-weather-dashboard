@@ -28,6 +28,7 @@ export const getForecast = createAsyncThunk(
 // =========================
 
 const initialState = {
+  cities: {}, 
   current: null,
   forecast: null,
   loading: false,
@@ -51,7 +52,8 @@ const weatherSlice = createSlice({
       })
       .addCase(getCurrentWeather.fulfilled, (state, action) => {
         state.loading = false;
-        state.current = action.payload;
+        state.cities[action.payload.name] = action.payload;
+
       })
       .addCase(getCurrentWeather.rejected, (state, action) => {
         state.loading = false;

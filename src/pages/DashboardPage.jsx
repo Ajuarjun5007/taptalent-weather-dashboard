@@ -1,61 +1,128 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentWeather } from '../features/weather/weatherSlice';
+
 import CityCard from '../components/CityCard/CityCard';
-import SearchBar from '../components/SearchBar/SearchBar';
-import Loader from '../components/Loader/Loader';
 import CitySkeleton from '../components/CityCard/CitySkeleton';
-// Default cities shown on first load
-const defaultCities = ['London', 'New York', 'Delhi', 'Tokyo'];
+import SearchBar from '../components/SearchBar/SearchBar';
+
+// 🇮🇳 Indian Cities (MAX 8 → 2 rows)
+const INDIAN_CITIES = [
+  'Delhi',
+  'Mumbai',
+  'Bengaluru',
+  'Chennai',
+  'Hyderabad',
+  'Kolkata',
+  'Pune',
+  'Kochi',
+];
+
+// 🌍 International Cities (MAX 8 → 2 rows)
+const INTERNATIONAL_CITIES = [
+  'London',
+  'New York',
+  'Tokyo',
+  'Paris',
+  'Sydney',
+  'Dubai',
+  'Singapore',
+  'Toronto',
+];
 
 function DashboardPage() {
   const dispatch = useDispatch();
 
-  // Local state for dynamic city list
-  const [cities, setCities] = useState(defaultCities);
-
-  // Redux state
   const weatherCities = useSelector((state) => state.weather.cities);
-  const loading = useSelector((state) => state.weather.loading);
   const unit = useSelector((state) => state.settings.unit);
 
-  // Fetch weather whenever cities or unit change
+  // "See more" state (controls 1 row vs 2 rows)
+  const [showMoreIndian, setShowMoreIndian] = useState(false);
+  const [showMoreInternational, setShowMoreInternational] = useState(false);
+
+  // ✅ STRICTLY CONTROL HOW MANY CARDS ARE SHOWN
+  const indianVisibleCities = showMoreIndian
+    ? INDIAN_CITIES.slice(0, 8)
+    : INDIAN_CITIES.slice(0, 4);
+
+  const internationalVisibleCities = showMoreInternational
+    ? INTERNATIONAL_CITIES.slice(0, 8)
+    : INTERNATIONAL_CITIES.slice(0, 4);
+
+  // Fetch weather data once (for all cities)
   useEffect(() => {
-    cities.forEach((city) => {
+    const allCities = [...INDIAN_CITIES, ...INTERNATIONAL_CITIES];
+    allCities.forEach((city) => {
       dispatch(getCurrentWeather({ city, unit }));
     });
-  }, [dispatch, cities, unit]);
+  }, [dispatch, unit]);
 
-  // Handle search add
+  // Search handler (adds city without breaking layout)
   const handleSearch = (city) => {
-    if (cities.includes(city)) return; // prevent duplicates
-    setCities((prev) => [...prev, city]);
+    dispatch(getCurrentWeather({ city, unit }));
   };
 
   return (
     <div className="app-container">
-      <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
-      <p className="app-subtitle">
-        Real-time weather insights across major cities
-      </p>
+      {/* Header + Search */}
+      <div className="dashboard-header">
+        <div>
+          <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
+          <p className="app-subtitle">
+            Real-time weather insights across major cities
+          </p>
+        </div>
 
-      {/* Search Bar */}
-      <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearch={handleSearch} />
+      </div>
 
-      {/* Loading indicator */}
-      {loading && <Loader />}
+      {/* 🇮🇳 Indian Cities */}
+      <section className="city-section">
+        <h2 className="section-title">🇮🇳 Indian Cities</h2>
 
-      {/* City Cards */}
-    <div className="card-grid">
-  {cities.map((city) =>
-    weatherCities[city] ? (
-      <CityCard key={city} data={weatherCities[city]} />
-    ) : (
-      <CitySkeleton key={city} />
-    )
-  )}
-</div>
+        <div className="card-grid">
+          {indianVisibleCities.map((city) =>
+            weatherCities[city] ? (
+              <CityCard key={city} data={weatherCities[city]} />
+            ) : (
+              <CitySkeleton key={city} />
+            )
+          )}
+        </div>
 
+        {!showMoreIndian && (
+          <button
+            className="see-more-btn"
+            onClick={() => setShowMoreIndian(true)}
+          >
+            See more
+          </button>
+        )}
+      </section>
+
+      {/* 🌍 International Cities */}
+      <section className="city-section">
+        <h2 className="section-title">🌍 International Cities</h2>
+
+        <div className="card-grid">
+          {internationalVisibleCities.map((city) =>
+            weatherCities[city] ? (
+              <CityCard key={city} data={weatherCities[city]} />
+            ) : (
+              <CitySkeleton key={city} />
+            )
+          )}
+        </div>
+
+        {!showMoreInternational && (
+          <button
+            className="see-more-btn"
+            onClick={() => setShowMoreInternational(true)}
+          >
+            See more
+          </button>
+        )}
+      </section>
     </div>
   );
 }

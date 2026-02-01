@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import DashboardPage from './pages/DashboardPage';
+import CityDetailsPage from './pages/CityDetailsPage';
 import FullPageLoader from './components/Loader/FullPageLoader';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -9,16 +11,19 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 1500); // fade duration
-
+    }, 1200);
     return () => clearTimeout(timer);
   }, []);
 
+  if (showSplash) return <FullPageLoader visible />;
+
   return (
-    <>
-      <FullPageLoader visible={showSplash} />
-      {!showSplash && <DashboardPage />}
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/city/:cityName" element={<CityDetailsPage />} />
+      </Routes>
+    </Router>
   );
 }
 

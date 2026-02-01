@@ -5,7 +5,7 @@ import { getCurrentWeather, getForecast } from '../features/weather/weatherSlice
 import { FiArrowLeft } from 'react-icons/fi';
 import TemperatureChart from '../components/Charts/TemperatureChart';
 import WindHumidityChart from '../components/Charts/WindHumidityChart';
-
+import PrecipitationChart from '../components/Charts/PrecipitationChart';
 /* ---------- Helper: Group forecast by day ---------- */
 function groupForecastByDay(list) {
   const days = {};
@@ -223,6 +223,11 @@ const unit = useSelector(state => state.settings.unit);
           data={chartData}
           mode={viewMode}
         />
+         <PrecipitationChart
+    data={forecast.list}
+    mode={viewMode}
+    range={range}
+  />
       </div>
     </div>
   );

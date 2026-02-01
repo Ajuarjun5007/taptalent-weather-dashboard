@@ -6,7 +6,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-
+import { getWindDirection } from '../../utils/winddirection';
 function WindHumidityChart({ data, mode }) {
   if (!data || data.length === 0) return null;
 
@@ -31,7 +31,19 @@ function WindHumidityChart({ data, mode }) {
   axisLine={{ stroke: 'rgba(255,255,255,0.4)' }}
 />
 
-          <Tooltip />
+          <Tooltip
+          content={({ payload }) => {
+    if (!payload || !payload.length) return null;
+
+    const { windDeg } = payload[0].payload;
+
+    return (
+      <div className="chart-tooltip">
+        <p>Wind: {getWindDirection(windDeg)}</p>
+      </div>
+    );
+  }}
+           />
           <Bar dataKey="wind" fill="#60A5FA" name="Wind (m/s)" />
           <Bar dataKey="humidity" fill="#FDBA74" name="Humidity (%)" />
         </BarChart>

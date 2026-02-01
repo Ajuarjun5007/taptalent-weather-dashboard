@@ -595,9 +595,229 @@ body {
   padding: 40px;
 }
 
+.details-container {
+  padding: 24px;
+}
+
+.details-header {
+  margin-bottom: 24px;
+}
+
+.back-btn {
+  margin-bottom: 16px;
+}
+.back-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #6ee7d8;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 6px 0;
+}
+
+.back-icon-btn:hover {
+  opacity: 0.85;
+}
+
+.controls-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 16px 0 24px;
+}
+
+/* Segmented toggle */
+.segmented {
+  display: inline-flex;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.segmented button {
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+/* Settings Button */
+.settings-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Modal */
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.settings-dropdown {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  min-width: 180px;
+  background: #1f3a44;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+
+.settings-title {
+  font-size: 13px;
+  color: #cdeff3;
+  margin-bottom: 8px;
+}
+.settings-dropdown button {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.settings-dropdown button.active {
+  background: #2dd4bf;
+  color: #003a3a;
+  font-weight: 600;
+}
+
+
+.settings-modal {
+  width: 90%;
+  max-width: 360px;
+  background: #1f3943;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.unit-toggle {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.unit-toggle button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.unit-toggle button.active {
+  background: #2dd4bf;
+  color: #022c22;
+  font-weight: 600;
+}
+
+
+.settings-btn span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.segmented button.active {
+  background: #6ee7d8;
+  color: #052e2b;
+  font-weight: 600;
+}
+
+/* Date range pills */
+.range-pills {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.range-pills button {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #cbd5e1;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.range-pills button.active {
+  background: #6ee7d8;
+  color: #052e2b;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.chart-toggle {
+  display: inline-flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.chart-toggle button {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.chart-toggle button.active {
+  background: #4fd1c5;
+  color: #022c2e;
+  font-weight: 600;
+}
+
+/* Mobile */
+
+
 @media (max-width: 768px) {
   .card-grid {
     gap: 16px;
+  }
+   .charts-grid {
+    grid-template-columns: 1fr;
   }
 
   .city-card {
@@ -605,6 +825,13 @@ body {
     min-width: calc(38% - 8px);
     max-width: calc(38% - 8px);
     padding: 24px;
+  }
+   .chart-card {
+    padding: 12px;
+  }
+
+  .chart-card h3 {
+    font-size: 14px;
   }
 }
 
@@ -629,6 +856,13 @@ body {
     max-width: 100%;
     flex-wrap: wrap;
   }
+/* .search-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border:'1px solid red';
+} */
 
   .search-bar input {
     width: 100%;

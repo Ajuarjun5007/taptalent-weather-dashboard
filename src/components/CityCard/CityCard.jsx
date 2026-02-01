@@ -2,11 +2,12 @@ import { WiThermometer, WiHumidity, WiStrongWind } from 'react-icons/wi';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../features/favorites/favoritesSlice';
-import { MdPushPin } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 function CityCard({ data, pinned = false }) {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites.cities);
+const navigate = useNavigate();
 
   const { name, main, weather, wind } = data;
   const icon = weather?.[0]?.icon;
@@ -15,7 +16,9 @@ function CityCard({ data, pinned = false }) {
   const isFavorite = favorites.includes(name);
 
   return (
-    <div className={`city-card ${pinned ? 'pinned-card' : ''}`}>
+    <div className={`city-card ${pinned ? 'pinned-card' : ''}`}
+     onClick={() => navigate(`/city/${name}`)}
+    >
      {/* {pinned && (
   <div className="pin-badge">
     <MdPushPin />
@@ -27,7 +30,10 @@ function CityCard({ data, pinned = false }) {
         <h3 className="city-name">{name}</h3>
         <button
           className="favorite-btn"
-          onClick={() => dispatch(toggleFavorite(name))}
+         onClick={(e) => {
+    e.stopPropagation();
+    dispatch(toggleFavorite(name));
+  }}
         >
           {isFavorite ? <MdFavorite /> : <MdFavoriteBorder />}
         </button>

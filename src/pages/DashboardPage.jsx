@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentWeather } from '../features/weather/weatherSlice';
-
+import SettingsDropdown from '../components/SettingsDropdown';
 import CityCard from '../components/CityCard/CityCard';
 import CitySkeleton from '../components/CityCard/CitySkeleton';
 import SearchBar from '../components/SearchBar/SearchBar';
-
+import { FiSettings } from 'react-icons/fi';
+import { setUnit } from '../features/settings/settingsSlice';
 function DashboardPage() {
   const dispatch = useDispatch();
-
+  const unit = useSelector((state) => state.settings.unit);
+const [showSettings, setShowSettings] = useState(false);  
+ const settingsRef = useRef(null);
   // City lists
   const [indianCities, setIndianCities] = useState([
     'Delhi',
@@ -33,18 +36,19 @@ function DashboardPage() {
   ]);
 
   const weatherCities = useSelector((state) => state.weather.cities);
-  const unit = useSelector((state) => state.settings.unit);
   const favorites = useSelector((state) => state.favorites.cities);
 
   const [showMoreIndian, setShowMoreIndian] = useState(false);
   const [showMoreInternational, setShowMoreInternational] = useState(false);
 
-  // Fetch weather
+  
   useEffect(() => {
-    [...indianCities, ...internationalCities].forEach((city) => {
-      dispatch(getCurrentWeather({ city, unit }));
-    });
-  }, [dispatch, unit, indianCities, internationalCities]);
+  const allCities = [...indianCities, ...internationalCities];
+  allCities.forEach(city => {
+    dispatch(getCurrentWeather({ city, unit }));
+  });
+}, [dispatch, unit, indianCities, internationalCities]);
+
 
   // Split pinned vs normal
   const pinnedIndian = indianCities.filter((c) => favorites.includes(c));
@@ -79,20 +83,55 @@ function DashboardPage() {
       );
     }
   };
-
+useEffect(() => {
+    function handleClickOutside(e) {
+      if (settingsRef.current && !settingsRef.current.contains(e.target)) {
+        setShowSettings(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   return (
     <div className="app-container">
       {/* Header */}
       <div className="dashboard-header">
-        <div>
-          <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
-          <p className="app-subtitle">
-            Real-time weather insights across major cities
-          </p>
-        </div>
+  <div>
+    <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
+    <p className="app-subtitle">
+      Real-time weather insights across major cities
+    </p>
+  </div>
 
-        <SearchBar onSearch={handleSearch} />
-      </div>
+  <div className="search-settings-row">
+    <SearchBar onSearch={handleSearch} />
+
+    <div className="settings-wrapper">
+       <button
+    className="settings-btn"
+    onClick={() => setShowSettings(true)}
+  >
+    <FiSettings />
+    <span>Settings</span>
+  </button>
+      {showSettings && <SettingsDropdown />}
+    </div>
+  </div>
+</div>
+
+{/* <div className="dashboard-actions">
+  <button
+    className="settings-btn"
+    onClick={() => setShowSettings(true)}
+  >
+    <FiSettings />
+    <span>Settings</span>
+  </button>
+</div> */}
+
+{/* {showSettings && (
+  <SettingsModal onClose={() => setShowSettings(false)} />
+)} */}
 
       {/* 📌 PINNED */}
       {favorites.length > 0 && (

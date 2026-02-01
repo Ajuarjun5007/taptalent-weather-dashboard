@@ -5,18 +5,20 @@ const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
 const favoritesSlice = createSlice({
   name: 'favorites',
   initialState: {
-    cities: savedFavorites,
+    cities: JSON.parse(localStorage.getItem('favorites')) || [],
   },
   reducers: {
-    toggleFavorite(state, action) {
-      const city = action.payload;
-      if (state.cities.includes(city)) {
-        state.cities = state.cities.filter((c) => c !== city);
-      } else {
-        state.cities.push(city);
-      }
-      localStorage.setItem('favorites', JSON.stringify(state.cities));
-    },
+   toggleFavorite(state, action) {
+  const city = action.payload;
+
+  if (state.cities.includes(city)) {
+    state.cities = state.cities.filter((c) => c !== city);
+  } else {
+    state.cities.push(city);
+  }
+
+  localStorage.setItem('favorites', JSON.stringify(state.cities));
+},
   },
 });
 

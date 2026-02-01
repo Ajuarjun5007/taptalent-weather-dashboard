@@ -6,65 +6,88 @@ import CityCard from '../components/CityCard/CityCard';
 import CitySkeleton from '../components/CityCard/CitySkeleton';
 import SearchBar from '../components/SearchBar/SearchBar';
 
-// 🇮🇳 Indian Cities (MAX 8 → 2 rows)
-const INDIAN_CITIES = [
-  'Delhi',
-  'Mumbai',
-  'Bengaluru',
-  'Chennai',
-  'Hyderabad',
-  'Kolkata',
-  'Pune',
-  'Kochi',
-];
-
-// 🌍 International Cities (MAX 8 → 2 rows)
-const INTERNATIONAL_CITIES = [
-  'London',
-  'New York',
-  'Tokyo',
-  'Paris',
-  'Sydney',
-  'Dubai',
-  'Singapore',
-  'Toronto',
-];
-
 function DashboardPage() {
   const dispatch = useDispatch();
 
+  // 🌆 City lists (DYNAMIC)
+  const [indianCities, setIndianCities] = useState([
+    'Delhi',
+    'Mumbai',
+    'Bengaluru',
+    'Chennai',
+    'Hyderabad',
+    'Kolkata',
+    'Pune',
+    'Kochi',
+  ]);
+
+  const [internationalCities, setInternationalCities] = useState([
+    'London',
+    'New York',
+    'Tokyo',
+    'Paris',
+    'Sydney',
+    'Dubai',
+    'Singapore',
+    'Toronto',
+  ]);
+
   const weatherCities = useSelector((state) => state.weather.cities);
   const unit = useSelector((state) => state.settings.unit);
+const favorites = useSelector((state) => state.favorites.cities);
 
-  // "See more" state (controls 1 row vs 2 rows)
+const sortPinned = (cities) => [
+  ...cities.filter((c) => favorites.includes(c)),
+  ...cities.filter((c) => !favorites.includes(c)),
+];
+  // See-more controls
   const [showMoreIndian, setShowMoreIndian] = useState(false);
   const [showMoreInternational, setShowMoreInternational] = useState(false);
 
-  // ✅ STRICTLY CONTROL HOW MANY CARDS ARE SHOWN
-  const indianVisibleCities = showMoreIndian
-    ? INDIAN_CITIES.slice(0, 8)
-    : INDIAN_CITIES.slice(0, 4);
+  const sortedIndianCities = sortPinned(indianCities);
+const sortedInternationalCities = sortPinned(internationalCities);
 
-  const internationalVisibleCities = showMoreInternational
-    ? INTERNATIONAL_CITIES.slice(0, 8)
-    : INTERNATIONAL_CITIES.slice(0, 4);
+const indianVisibleCities = showMoreIndian
+  ? sortedIndianCities.slice(0, 8)
+  : sortedIndianCities.slice(0, 4);
 
-  // Fetch weather data once (for all cities)
+const internationalVisibleCities = showMoreInternational
+  ? sortedInternationalCities.slice(0, 8)
+  : sortedInternationalCities.slice(0, 4);
+
+
+
+  // 🌦️ Fetch weather whenever city lists or unit change
   useEffect(() => {
-    const allCities = [...INDIAN_CITIES, ...INTERNATIONAL_CITIES];
+    const allCities = [...indianCities, ...internationalCities];
+
     allCities.forEach((city) => {
       dispatch(getCurrentWeather({ city, unit }));
     });
-  }, [dispatch, unit]);
+  }, [dispatch, unit, indianCities, internationalCities]);
 
-  // Search handler (adds city without breaking layout)
+  // ➕ ADD CITY FROM SEARCH (THIS WAS MISSING)
   const handleSearch = (city) => {
-    dispatch(getCurrentWeather({ city, unit }));
+    dispatch(getCurrentWeather({ city: city.name, unit }));
+
+    if (city.country === 'IN') {
+      setIndianCities((prev) =>
+        prev.includes(city.name)
+          ? prev
+          : [city.name, ...prev].slice(0, 8)
+      );
+    } else {
+      setInternationalCities((prev) =>
+        prev.includes(city.name)
+          ? prev
+          : [city.name, ...prev].slice(0, 8)
+      );
+    }
   };
 
   return (
     <div className="app-container">
-      {/* Header + Search */}
+      {/* Header */}
       <div className="dashboard-header">
         <div>
           <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>

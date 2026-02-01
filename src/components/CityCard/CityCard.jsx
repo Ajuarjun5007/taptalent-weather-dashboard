@@ -1,39 +1,63 @@
+import { WiThermometer, WiHumidity, WiStrongWind } from 'react-icons/wi';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../features/favorites/favoritesSlice';
-import { useNavigate } from 'react-router-dom';
 
 function CityCard({ data }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const favorites = useSelector((state) => state.favorites.cities);
 
-  if (!data) return null;
+  const { name, main, weather, wind } = data;
+  const icon = weather?.[0]?.icon;
+  const description = weather?.[0]?.description;
 
-  const isFavorite = favorites.includes(data.name);
+  const isFavorite = favorites.includes(name);
 
   return (
-    <div
-      className="city-card"
-      onClick={() => navigate(`/city/${data.name}`)}
-    >
+    <div className="city-card">
+      {/* Header */}
       <div className="card-header">
-        <h3>{data.name}</h3>
-        <span
-          className={`star ${isFavorite ? 'active' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation(); // prevent navigation
-            dispatch(toggleFavorite(data.name));
-          }}
+        <h3 className="city-name">{name}</h3>
+
+        <button
+          className="favorite-btn"
+          onClick={() => dispatch(toggleFavorite(name))}
         >
-          ★
-        </span>
+          {isFavorite ? <MdFavorite /> : <MdFavoriteBorder />}
+        </button>
       </div>
 
-      <p className="condition">{data.weather[0].main}</p>
+      {/* Body: info left, icon right */}
+      <div className="card-body">
+        <div className="card-info">
+          <p className="condition">{description}</p>
 
-      <div className="card-details">
-        <div>🌡 {Math.round(data.main.temp)}°</div>
-        <div>💧 {data.main.humidity}%</div>
+          <div className="stats">
+            <div className="stat">
+              <WiThermometer />
+              <span>{Math.round(main.temp)}°</span>
+            </div>
+
+            <div className="stat">
+              <WiHumidity />
+              <span>{main.humidity}%</span>
+            </div>
+
+            <div className="stat">
+              <WiStrongWind />
+              <span>{wind.speed} m/s</span>
+            </div>
+          </div>
+        </div>
+
+        {icon && (
+          <div className="weather-icon-box">
+            <img
+              src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+              alt={description}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

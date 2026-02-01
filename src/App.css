@@ -11,6 +11,9 @@ body {
   /* min-height: 100vh; */
   padding: 24px 40px;
   background: transparent; /* IMPORTANT */
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 
@@ -114,6 +117,8 @@ body {
   gap: 12px;
   margin: 24px 0 32px;
   max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .search-bar input {
@@ -407,6 +412,8 @@ body {
   display: flex;
   gap: 10px;
   align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .search-container input {
@@ -414,18 +421,21 @@ body {
   border-radius: 10px;
   border: none;
   outline: none;
-  min-width: 280px;
+  min-width: 200px;
+  flex: 1;
 }
 .search-input-wrapper {
   position: relative;
-  width: 320px; /* 🔒 locks dropdown width */
+  width: 100%;
+  max-width: 320px;
 }
 .search-input-wrapper input {
-  width: 90%;
+  width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
   border: none;
   outline: none;
+  box-sizing: border-box;
 }
 .search-container button {
   padding: 12px 16px;
@@ -587,16 +597,44 @@ body {
 
 @media (max-width: 768px) {
   .card-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
   }
 
   .city-card {
-    max-width: 100%;
+    max-width: none;
+    min-width: calc(38% - 8px);
+    max-width: calc(38% - 8px);
+    padding: 24px;
   }
 }
 
 @media (max-width: 480px) {
+  .app-container {
+    padding: 12px 16px;
+  }
+
   .card-grid {
-    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .city-card {
+    max-width: 100%;
+    min-width: 90%;
+/* width: 300px; */
+    /* min-width: 100%; */
+    padding: 16px;
+  }
+
+  .search-bar {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .search-bar button {
+    width: 100%;
   }
 }

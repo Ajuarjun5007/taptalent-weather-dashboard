@@ -6,6 +6,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import TemperatureChart from '../components/Charts/TemperatureChart';
 import WindHumidityChart from '../components/Charts/WindHumidityChart';
 import PrecipitationChart from '../components/Charts/PrecipitationChart';
+import PressureChart from '../components/Charts/PressureChart';
 /* ---------- Helper: Group forecast by day ---------- */
 function groupForecastByDay(list) {
   const days = {};
@@ -228,6 +229,12 @@ const unit = useSelector(state => state.settings.unit);
     mode={viewMode}
     range={range}
   />
+  <PressureChart
+  data={forecast.list}
+  mode={viewMode}
+  range={range}
+/>
+
       </div>
     </div>
   );

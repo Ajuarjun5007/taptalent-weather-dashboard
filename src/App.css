@@ -54,6 +54,7 @@ body {
   background: rgba(255, 255, 255, 0.08);
   border-radius: 18px;
   padding: 40px;
+  min-width: 260px;
   max-width: 320px;
   color: #fff;
   display: flex;

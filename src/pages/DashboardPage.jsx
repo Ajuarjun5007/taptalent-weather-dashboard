@@ -25,12 +25,13 @@ const [showSettings, setShowSettings] = useState(false);
   const [internationalCities, setInternationalCities] = useState([
     'London',
     'New York',
-    'Tokyo',
-    'Paris',
     'Sydney',
+    'Toronto',
+    'Paris',
+    'Tokyo',
     'Dubai',
     'Singapore',
-    'Toronto',
+    
   ]);
 
   const weatherCities = useSelector((state) => state.weather.cities);

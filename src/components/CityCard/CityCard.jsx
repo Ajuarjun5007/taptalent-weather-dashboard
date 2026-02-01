@@ -2,8 +2,9 @@ import { WiThermometer, WiHumidity, WiStrongWind } from 'react-icons/wi';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../features/favorites/favoritesSlice';
+import { MdPushPin } from 'react-icons/md';
 
-function CityCard({ data }) {
+function CityCard({ data, pinned = false }) {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites.cities);
 
@@ -14,11 +15,16 @@ function CityCard({ data }) {
   const isFavorite = favorites.includes(name);
 
   return (
-    <div className="city-card">
-      {/* Header */}
+    <div className={`city-card ${pinned ? 'pinned-card' : ''}`}>
+     {/* {pinned && (
+  <div className="pin-badge">
+    <MdPushPin />
+  </div>
+)} */}
+
+
       <div className="card-header">
         <h3 className="city-name">{name}</h3>
-
         <button
           className="favorite-btn"
           onClick={() => dispatch(toggleFavorite(name))}
@@ -27,7 +33,6 @@ function CityCard({ data }) {
         </button>
       </div>
 
-      {/* Body: info left, icon right */}
       <div className="card-body">
         <div className="card-info">
           <p className="condition">{description}</p>
@@ -37,12 +42,10 @@ function CityCard({ data }) {
               <WiThermometer />
               <span>{Math.round(main.temp)}°</span>
             </div>
-
             <div className="stat">
               <WiHumidity />
               <span>{main.humidity}%</span>
             </div>
-
             <div className="stat">
               <WiStrongWind />
               <span>{wind.speed} m/s</span>

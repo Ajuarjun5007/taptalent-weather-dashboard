@@ -9,7 +9,7 @@ import SearchBar from '../components/SearchBar/SearchBar';
 function DashboardPage() {
   const dispatch = useDispatch();
 
-  // 🌆 City lists (DYNAMIC)
+  // City lists
   const [indianCities, setIndianCities] = useState([
     'Delhi',
     'Mumbai',
@@ -34,53 +34,48 @@ function DashboardPage() {
 
   const weatherCities = useSelector((state) => state.weather.cities);
   const unit = useSelector((state) => state.settings.unit);
-const favorites = useSelector((state) => state.favorites.cities);
+  const favorites = useSelector((state) => state.favorites.cities);
 
-const sortPinned = (cities) => [
-  ...cities.filter((c) => favorites.includes(c)),
-  ...cities.filter((c) => !favorites.includes(c)),
-];
-  // See-more controls
   const [showMoreIndian, setShowMoreIndian] = useState(false);
   const [showMoreInternational, setShowMoreInternational] = useState(false);
 
-  const sortedIndianCities = sortPinned(indianCities);
-const sortedInternationalCities = sortPinned(internationalCities);
-
-const indianVisibleCities = showMoreIndian
-  ? sortedIndianCities.slice(0, 8)
-  : sortedIndianCities.slice(0, 4);
-
-const internationalVisibleCities = showMoreInternational
-  ? sortedInternationalCities.slice(0, 8)
-  : sortedInternationalCities.slice(0, 4);
-
-
-
-  // 🌦️ Fetch weather whenever city lists or unit change
+  // Fetch weather
   useEffect(() => {
-    const allCities = [...indianCities, ...internationalCities];
-
-    allCities.forEach((city) => {
+    [...indianCities, ...internationalCities].forEach((city) => {
       dispatch(getCurrentWeather({ city, unit }));
     });
   }, [dispatch, unit, indianCities, internationalCities]);
 
-  // ➕ ADD CITY FROM SEARCH (THIS WAS MISSING)
+  // Split pinned vs normal
+  const pinnedIndian = indianCities.filter((c) => favorites.includes(c));
+  const normalIndian = indianCities.filter((c) => !favorites.includes(c));
+
+  const pinnedInternational = internationalCities.filter((c) =>
+    favorites.includes(c)
+  );
+  const normalInternational = internationalCities.filter(
+    (c) => !favorites.includes(c)
+  );
+
+  const visibleIndian = showMoreIndian
+    ? normalIndian.slice(0, 8)
+    : normalIndian.slice(0, 4);
+
+  const visibleInternational = showMoreInternational
+    ? normalInternational.slice(0, 8)
+    : normalInternational.slice(0, 4);
+
+  // Add city from search
   const handleSearch = (city) => {
     dispatch(getCurrentWeather({ city: city.name, unit }));
 
     if (city.country === 'IN') {
       setIndianCities((prev) =>
-        prev.includes(city.name)
-          ? prev
-          : [city.name, ...prev].slice(0, 8)
+        prev.includes(city.name) ? prev : [city.name, ...prev]
       );
     } else {
       setInternationalCities((prev) =>
-        prev.includes(city.name)
-          ? prev
-          : [city.name, ...prev].slice(0, 8)
+        prev.includes(city.name) ? prev : [city.name, ...prev]
       );
     }
   };
@@ -99,12 +94,27 @@ const internationalVisibleCities = showMoreInternational
         <SearchBar onSearch={handleSearch} />
       </div>
 
+      {/* 📌 PINNED */}
+      {favorites.length > 0 && (
+        <section className="city-section pinned">
+          <h2 className="section-title">📌 Pinned Cities</h2>
+          <div className="card-grid">
+            {[...pinnedIndian, ...pinnedInternational].map((city) =>
+              weatherCities[city] ? (
+                <CityCard key={city} data={weatherCities[city]} pinned />
+              ) : (
+                <CitySkeleton key={city} />
+              )
+            )}
+          </div>
+        </section>
+      )}
+
       {/* 🇮🇳 Indian Cities */}
       <section className="city-section">
         <h2 className="section-title">🇮🇳 Indian Cities</h2>
-
         <div className="card-grid">
-          {indianVisibleCities.map((city) =>
+          {visibleIndian.map((city) =>
             weatherCities[city] ? (
               <CityCard key={city} data={weatherCities[city]} />
             ) : (
@@ -113,7 +123,7 @@ const internationalVisibleCities = showMoreInternational
           )}
         </div>
 
-        {!showMoreIndian && (
+        {!showMoreIndian && normalIndian.length > 4 && (
           <button
             className="see-more-btn"
             onClick={() => setShowMoreIndian(true)}
@@ -126,9 +136,8 @@ const internationalVisibleCities = showMoreInternational
       {/* 🌍 International Cities */}
       <section className="city-section">
         <h2 className="section-title">🌍 International Cities</h2>
-
         <div className="card-grid">
-          {internationalVisibleCities.map((city) =>
+          {visibleInternational.map((city) =>
             weatherCities[city] ? (
               <CityCard key={city} data={weatherCities[city]} />
             ) : (
@@ -137,7 +146,7 @@ const internationalVisibleCities = showMoreInternational
           )}
         </div>
 
-        {!showMoreInternational && (
+        {!showMoreInternational && normalInternational.length > 4 && (
           <button
             className="see-more-btn"
             onClick={() => setShowMoreInternational(true)}

@@ -26,25 +26,55 @@ body {
   margin-bottom: 32px;
 }
 .card-grid {
-  display: grid;
- grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  /* display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(315px, 2fr));
   gap: 24px;
+  align-items: stretch;
+  justify-content: start;
+  justify-items: start; */
+  display: flex;
+  flex-wrap: wrap;
+
+  /* FIXED CARD TRACKS — NO STRETCHING POSSIBLE */
+  /* grid-template-columns: repeat(auto-fill, 320px); */
+
+  gap: 20px;
+
+  justify-content: start;   /* pack tracks to the left */
+  align-content: start;
+
+  width: 100%;
 }
 
 .city-card {
+   position: relative;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 18px;
-  padding: 16px;
+  padding: 40px;
+  max-width: 320px;
   color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 27px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .city-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.pin-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(79, 209, 197, 0.15);
+  color: #4fd1c5;
+  padding: 6px;
+  border-radius: 50%;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-header {
@@ -345,6 +375,14 @@ body {
 .city-section {
   margin-top: 36px;
 }
+.city-section.pinned .card-grid {
+  /* display: grid; */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  display: flex;
+    flex-wrap: wrap;
+  /* max-width: 320px; */
+}
 
 .section-title {
   font-size: 18px;
@@ -533,4 +571,32 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+.see-more-btn {
+  margin-top: 12px;
+  background: none;
+  border: none;
+  color: #4fd1c5;
+  cursor: pointer;
+  font-size: 14px;
+}
+.pinned-card {
+  border: 1px solid rgba(79, 209, 197, 0.35);
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .city-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
 }

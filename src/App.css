@@ -647,103 +647,53 @@ body {
   font-size: 14px;
 }
 /* Settings Button */
-.settings-btn {
+/* Unit Toggle Container */
+.unit-toggle-container {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 8px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-/* Modal */
-.settings-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-.settings-dropdown {
-  position: absolute;
-  top: 46px;
-  right: 0;
-  min-width: 180px;
-  background: #1f3a44;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-  z-index: 100;
-}
-
-.settings-title {
-  font-size: 13px;
-  color: #cdeff3;
-  margin-bottom: 8px;
-}
-.settings-dropdown button {
-  width: 100%;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  cursor: pointer;
-}
-
-.settings-dropdown button.active {
-  background: #2dd4bf;
-  color: #003a3a;
-  font-weight: 600;
-}
-
-
-.settings-modal {
-  width: 90%;
-  max-width: 360px;
-  background: #1f3943;
-  border-radius: 14px;
-  padding: 20px;
-}
-
-.settings-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-}
-
-.unit-toggle {
-  margin-top: 20px;
-  display: flex;
+  flex-direction: row;
   gap: 12px;
+  align-items: center;
 }
 
-.unit-toggle button {
-  flex: 1;
-  padding: 12px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  border: 1px solid transparent;
-}
-
-.unit-toggle button.active {
-  background: #2dd4bf;
-  color: #022c22;
-  font-weight: 600;
-}
-
-
-.settings-btn span {
+.toggle-label {
   font-size: 12px;
   font-weight: 600;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Unit Toggle Switch */
+.unit-toggle-switch {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 4px;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.toggle-btn {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.toggle-btn:hover {
+  color: #fff;
+}
+
+.toggle-btn.active {
+  background: #2dd4bf;
+  color: #022c22;
 }
 
 .segmented button.active {
@@ -774,7 +724,12 @@ body {
   border-color: transparent;
   font-weight: 600;
 }
-
+.search-settings-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
 
 .charts-grid {
   display: grid;
@@ -833,6 +788,23 @@ body {
   .chart-card h3 {
     font-size: 14px;
   }
+
+  /* .search-settings-row {
+    flex-wrap: wrap;
+  } */
+
+  .unit-toggle-container {
+    gap: 8px;
+  }
+
+  .toggle-label {
+    font-size: 11px;
+  }
+
+  .toggle-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -847,8 +819,6 @@ body {
   .city-card {
     max-width: 100%;
     min-width: 90%;
-/* width: 300px; */
-    /* min-width: 100%; */
     padding: 16px;
   }
 
@@ -856,13 +826,32 @@ body {
     max-width: 100%;
     flex-wrap: wrap;
   }
-/* .search-settings-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  border:'1px solid red';
-} */
+
+  .search-settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .unit-toggle-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .unit-toggle-switch {
+    width: 100%;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 
   .search-bar input {
     width: 100%;

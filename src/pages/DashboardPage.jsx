@@ -1,12 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentWeather } from '../features/weather/weatherSlice';
-import SettingsDropdown from '../components/SettingsDropdown';
 import CityCard from '../components/CityCard/CityCard';
 import CitySkeleton from '../components/CityCard/CitySkeleton';
 import SearchBar from '../components/SearchBar/SearchBar';
-import { FiSettings } from 'react-icons/fi';
-import { setUnit } from '../features/settings/settingsSlice';
+import { toggleUnit } from '../features/settings/settingsSlice';
 function DashboardPage() {
   const dispatch = useDispatch();
   const unit = useSelector((state) => state.settings.unit);
@@ -105,16 +103,22 @@ useEffect(() => {
 
   <div className="search-settings-row">
     <SearchBar onSearch={handleSearch} />
-
-    <div className="settings-wrapper">
-       <button
-    className="settings-btn"
-    onClick={() => setShowSettings(true)}
-  >
-    <FiSettings />
-    <span>Settings</span>
-  </button>
-      {showSettings && <SettingsDropdown />}
+    <div className="unit-toggle-container">
+      <label className="toggle-label">Temperature Unit</label>
+      <div className="unit-toggle-switch">
+        <button
+          className={`toggle-btn ${unit === 'metric' ? 'active' : ''}`}
+          onClick={() => dispatch(toggleUnit())}
+        >
+          Celsius
+        </button>
+        <button
+          className={`toggle-btn ${unit === 'imperial' ? 'active' : ''}`}
+          onClick={() => dispatch(toggleUnit())}
+        >
+          Fahrenheit
+        </button>
+      </div>
     </div>
   </div>
 </div>

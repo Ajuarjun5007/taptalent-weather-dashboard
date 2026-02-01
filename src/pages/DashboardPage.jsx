@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentWeather } from '../features/weather/weatherSlice';
 import CityCard from '../components/CityCard/CityCard';
 import SearchBar from '../components/SearchBar/SearchBar';
-
+import Loader from '../components/Loader/Loader';
+import CitySkeleton from '../components/CityCard/CitySkeleton';
 // Default cities shown on first load
 const defaultCities = ['London', 'New York', 'Delhi', 'Tokyo'];
 
@@ -42,14 +43,19 @@ function DashboardPage() {
       <SearchBar onSearch={handleSearch} />
 
       {/* Loading indicator */}
-      {loading && <p>Loading weather data...</p>}
+      {loading && <Loader />}
 
       {/* City Cards */}
-      <div className="card-grid">
-        {cities.map((city) => (
-          <CityCard key={city} data={weatherCities[city]} />
-        ))}
-      </div>
+    <div className="card-grid">
+  {cities.map((city) =>
+    weatherCities[city] ? (
+      <CityCard key={city} data={weatherCities[city]} />
+    ) : (
+      <CitySkeleton key={city} />
+    )
+  )}
+</div>
+
     </div>
   );
 }

@@ -124,6 +124,7 @@ useEffect(() => {
   )}
 </div>
   </div>
+</div>
 
   <div className="search-settings-row">
     <SearchBar onSearch={handleSearch} />
@@ -145,7 +146,6 @@ useEffect(() => {
       </div>
     </div>
   </div>
-</div>
 
 {/* <div className="dashboard-actions">
   <button

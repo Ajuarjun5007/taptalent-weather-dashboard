@@ -17,7 +17,6 @@ function SearchBar({ onSearch }) {
 
     const timer = setTimeout(async () => {
       try {
-        setLoading(true);
         const res = await axios.get(
           `https://api.openweathermap.org/geo/1.0/direct`,
           {
@@ -32,8 +31,6 @@ function SearchBar({ onSearch }) {
 
       } catch (err) {
         setSuggestions([]);
-      } finally {
-        setLoading(false);
       }
     }, 400); // debounce
 

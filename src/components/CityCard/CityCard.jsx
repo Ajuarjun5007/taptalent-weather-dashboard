@@ -3,7 +3,7 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../features/favorites/favoritesSlice';
 import { useNavigate } from 'react-router-dom';
-import { getWindDirection } from '../../utils/winddirection';
+
 function CityCard({ data, pinned = false }) {
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites.cities);

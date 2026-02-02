@@ -85,15 +85,6 @@ function DashboardPage() {
       );
     }
   };
-useEffect(() => {
-    function handleClickOutside(e) {
-      if (settingsRef.current && !settingsRef.current.contains(e.target)) {
-        setShowSettings(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
   return (
     <div className="app-container">
       {/* Mobile Menu */}

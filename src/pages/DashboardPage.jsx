@@ -5,9 +5,13 @@ import CityCard from '../components/CityCard/CityCard';
 import CitySkeleton from '../components/CityCard/CitySkeleton';
 import SearchBar from '../components/SearchBar/SearchBar';
 import { toggleUnit } from '../features/settings/settingsSlice';
+import GoogleSignIn from '../components/Auth/GoogleSignIn';
+import SignOutButton from '../components/Auth/SignOutButton';
+import MobileMenu from '../components/MobileMenu/MobileMenu';
 function DashboardPage() {
   const dispatch = useDispatch();
   const unit = useSelector((state) => state.settings.unit);
+  const user = useSelector((state) => state.auth.user);
 const [showSettings, setShowSettings] = useState(false);  
  const settingsRef = useRef(null);
   // City lists
@@ -93,18 +97,37 @@ useEffect(() => {
   }, []);
   return (
     <div className="app-container">
+      {/* Mobile Menu */}
+      <MobileMenu />
+
       {/* Header */}
       <div className="dashboard-header">
-  <div>
-    <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
+  <div className='dashboard-header-content'>
+    <div>
+ <h1 className="app-title">TapTalent Weather Analytics Dashboard</h1>
     <p className="app-subtitle">
       Real-time weather insights across major cities
     </p>
+    </div>
+   
+    <div className="auth-area desktop-only">
+  {user ? (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div className="user-info">
+        <img src={user.photo} alt={user.name} />
+        <span>{user.name}</span>
+      </div>
+      <SignOutButton />
+    </div>
+  ) : (
+    <GoogleSignIn />
+  )}
+</div>
   </div>
 
   <div className="search-settings-row">
     <SearchBar onSearch={handleSearch} />
-    <div className="unit-toggle-container">
+    <div className="unit-toggle-container desktop-only">
       <label className="toggle-label">Temperature Unit</label>
       <div className="unit-toggle-switch">
         <button

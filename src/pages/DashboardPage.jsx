@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentWeather } from '../features/weather/weatherSlice';
 import CityCard from '../components/CityCard/CityCard';
@@ -12,7 +12,6 @@ function DashboardPage() {
   const dispatch = useDispatch();
   const unit = useSelector((state) => state.settings.unit);
   const user = useSelector((state) => state.auth.user);
-  const settingsRef = useRef(null);
   // City lists
   const [indianCities, setIndianCities] = useState([
     'Delhi',

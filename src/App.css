@@ -676,7 +676,21 @@ z-index: 10;
 }
 
 .details-header {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(45, 212, 191, 0.15);
+}
+
+.details-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.details-header p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
 }
 
 .back-btn {
@@ -688,14 +702,17 @@ z-index: 10;
   gap: 8px;
   background: transparent;
   border: none;
-  color: #6ee7d8;
+  color: #4fd1c5;
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  padding: 6px 0;
+  padding: 8px 0;
+  transition: all 0.2s ease;
 }
 
 .back-icon-btn:hover {
-  opacity: 0.85;
+  color: #2dd4bf;
+  gap: 12px;
 }
 
 .controls-row {
@@ -939,7 +956,9 @@ z-index: 10;
     padding: 12px 16px;
     padding-top: 140px;
   }
-
+.app-title{
+  font-size: 21px;
+}
   .dashboard-header {
     position: fixed;
     padding: 12px 16px;
@@ -1027,5 +1046,10 @@ z-index: 10;
 
   .search-bar button {
     width: 100%;
+  }
+}
+@media(max-width: 360px){
+  .app-title{
+    font-size: 18px;
   }
 }

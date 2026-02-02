@@ -1,53 +1,209 @@
-# Getting Started with Create React App
+# TapTalent Weather Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, real-time weather analytics dashboard with Google authentication, city forecasting, and interactive charts.
+
+## Features
+
+- **Real-time Weather Data** - Get current weather conditions for major cities
+- **7-Day Forecasts** - View detailed 5-day weather forecasts with hourly data
+- **Google Authentication** - Secure login/logout with Firebase
+- **Persistent Login** - Session persists across page refreshes
+- **City Management** - Pin favorite cities for quick access
+- **Interactive Charts** - Temperature, humidity, wind speed, and precipitation trends
+- **Temperature Units** - Toggle between Celsius and Fahrenheit
+- **Mobile Responsive** - Optimized for desktop, tablet, and mobile devices
+- **Modern UI** - Glass morphism design with smooth animations and gradients
+
+## Tech Stack
+
+### Frontend Framework
+- **React 19** - UI library
+- **React Router v7** - Client-side routing
+- **Redux Toolkit** - State management
+
+### Authentication & Backend
+- **Firebase** - Google OAuth authentication
+- **OpenWeatherMap API** - Weather data
+
+### UI & Styling
+- **React Icons** - Icon library
+- **Recharts** - Interactive charts and graphs
+- **Custom CSS** - Responsive design with media queries
+
+### Build Tools
+- **Create React App** - Project setup
+- **Axios** - HTTP client
+
+## Project Structure
+
+```
+src/
+├── App.js                 # Root component with auth listener
+├── App.css                # Global styles
+├── index.js               # Entry point
+├── firebase.js            # Firebase configuration
+├── app/
+│   └── store.js           # Redux store setup
+├── components/
+│   ├── Auth/
+│   │   └── GoogleSignIn.jsx
+│   ├── Charts/            # Temperature, Wind, Precipitation, Pressure
+│   ├── CityCard/          # City card and skeleton components
+│   ├── Dashboard/         # Dashboard layout
+│   ├── Header/            # Header components
+│   ├── Loader/            # Loading spinners
+│   ├── SearchBar/         # City search with autocomplete
+│   ├── SettingsModal.jsx
+│   └── SettingsDropdown.jsx
+├── features/              # Redux slices
+│   ├── auth/
+│   ├── favorites/
+│   ├── settings/
+│   └── weather/
+├── pages/
+│   ├── DashboardPage.jsx  # Main dashboard
+│   └── CityDetailsPage.jsx # City detail view
+└── utils/                 # Helper functions
+    ├── constants.js
+    ├── helpers.js
+    ├── groupForecastByDay.js
+    └── winddirection.js
+```
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v14+)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone <repository-url>
+cd taptalent-weather-dashboard
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Configure Firebase
+- Add your Firebase credentials in `src/firebase.js`
+- Enable Google authentication in Firebase Console
+
+4. Set up OpenWeatherMap API
+- Get API key from [OpenWeatherMap](https://openweathermap.org/api)
+- Add it to your environment or API configuration
+
+### Running the App
+
+```bash
+npm start
+```
+Opens [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Building for Production
+
+```bash
+npm run build
+```
+Creates optimized production build in the `build/` folder.
+
+## Key Features Breakdown
+
+### Authentication
+- Google Sign-In with Firebase
+- Sign-out functionality
+- Login state persists across page refreshes
+- User info display with profile picture
+
+### Weather Display
+- Current weather conditions (temperature, humidity, pressure, wind)
+- Visual weather icons
+- 5-day forecast with hourly data
+- City details page with advanced analytics
+
+### Charts & Analytics
+- Temperature trends (hourly and daily)
+- Humidity patterns
+- Wind speed analysis
+- Precipitation forecasts
+- Atmospheric pressure trends
+
+### City Management
+- Search cities with autocomplete
+- Pin favorite cities
+- Quick access to pinned cities section
+- Organized city sections (Indian & International)
+
+### Responsive Design
+- Desktop: Full layout with all features
+- Tablet: Optimized spacing and font sizes
+- Mobile: Single column layout with hamburger menu
+- Fixed header for easy navigation
+
+## State Management
+
+Redux stores:
+- **weather** - Current weather and forecast data
+- **auth** - User authentication state
+- **favorites** - Pinned cities list
+- **settings** - Temperature unit preference
+
+## Styling
+
+- **Color Scheme**: Teal accent (#2dd4bf), dark gradient background
+- **Glass Morphism**: Frosted glass effect on cards
+- **Animations**: Smooth transitions and hover effects
+- **Responsive Breakpoints**: 
+  - Desktop: Default
+  - Tablet: max-width 768px
+  - Mobile: max-width 480px
 
 ## Available Scripts
 
-In the project directory, you can run:
+### Development
+```bash
+npm start      # Run dev server
+npm test       # Run tests
+```
 
-### `npm start`
+### Production
+```bash
+npm run build  # Create optimized build
+npm run eject  # Eject from Create React App (one-way)
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Browser Support
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
-### `npm test`
+## Performance Optimizations
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Chart data aggregation for better performance
+- Lazy loading for city details
+- Optimized re-renders with Redux selectors
+- Image optimization with weather icons
+- CSS animations with hardware acceleration
 
-### `npm run build`
+## Future Enhancements
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Weather alerts and notifications
+- User preferences storage
+- Extended forecast (14 days)
+- Air quality index
+- UV index tracking
+- Historical weather data
+- Weather comparison between cities
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This project is part of TapTalent platform.
 
 ### Analyzing the Bundle Size
 

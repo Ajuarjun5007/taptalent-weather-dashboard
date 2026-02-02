@@ -6,8 +6,7 @@ const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 function SearchBar({ onSearch }) {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [loading, setLoading] = useState(false);
-const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
 
   // Debounced autocomplete
   useEffect(() => {

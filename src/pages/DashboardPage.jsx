@@ -12,8 +12,7 @@ function DashboardPage() {
   const dispatch = useDispatch();
   const unit = useSelector((state) => state.settings.unit);
   const user = useSelector((state) => state.auth.user);
-const [showSettings, setShowSettings] = useState(false);  
- const settingsRef = useRef(null);
+  const settingsRef = useRef(null);
   // City lists
   const [indianCities, setIndianCities] = useState([
     'Delhi',
